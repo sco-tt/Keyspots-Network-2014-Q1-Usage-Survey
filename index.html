@@ -22,20 +22,21 @@
     google.load('visualization', '1', { packages: ['corechart'] });
 		function drawTable() {
    		// User Input
-		var exclude = document.getElementById('exclude')[0];
-		var excludeValue = exclude.value;
+		// var exclude = document.getElementById('exclude')[0];
+		// var excludeValue = exclude.value;
 		var useTypeValue = document.getElementById('useType').value;
 			console.log(useTypeValue);
-		var ageTypeValue;
+		// var ageTypeValue = ["% Adult Visits", "% Youth Visits"]
+			var ageTypeValue = document.getElementById('age').value;
 
  var query = "SELECT 'Organization' as Organization, " +
-            "'% Adult Visits' as '% Adult Visits', " +
+	 		"'" + ageTypeValue + "' as '" + ageTypeValue + "', " +
 	 		"'" + useTypeValue + "' as '" + useTypeValue + "' " +
             'FROM 1mHlGh_9lb8yAvPFPtAB3c4NobQen3kNMGTRN85k-';   
 		
-//		if (exclude.checked == true) {
 			query += " WHERE '% Adult Visits' < '" + 1 + "'";
-//		}	
+			
+			console.log(query);
         
         var queryText = encodeURIComponent(query);
         var gvizQuery = new google.visualization.Query(
@@ -47,7 +48,7 @@
           var numRows = response.getDataTable().getNumberOfRows();
           var numCols = response.getDataTable().getNumberOfColumns();
 
-          var ftdata = ['<table><thead><tr>'];
+          var ftdata = ['<table class="table table-striped"><thead><tr>'];
           for (var i = 0; i < numCols; i++) {
             var columnTitle = response.getDataTable().getColumnLabel(i);
             ftdata.push('<th>' + columnTitle + '</th>');
@@ -79,15 +80,17 @@
 						var percentUseType = rowValue.tf[i]['c'][2]['v'];
 						chartData.push([percentAdultVisits, percentUseType]);
 					}
-						drawChart(chartData)
+						drawChart(chartData, ageTypeValue, useTypeValue)
         });
 
 		}
-				function drawChart(chartData) {
+		function drawChart(chartData, ageTypeValue, useTypeValue) {
 		    var data = google.visualization.arrayToDataTable(chartData);
 		        var options = {
-		          title: 'Company Performance', 
-				  trendlines: {
+		          title: useTypeValue + ' vs ' + ageTypeValue,
+					hAxis: {title: useTypeValue},
+					vAxis: {title: ageTypeValue},
+					trendlines: {
             		0: {
               			type: 'linear',
               			showR2: true,
@@ -114,22 +117,24 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/FLP-Hotspots-Data-Dashboard/index.html">FLP Hotspots Data Dashboard</a>
+          <a class="navbar-brand" href="/FLP-Hotspots-Data-Dashboard/index.html">Keyspots Network Eval 2014 Q1</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="/FLP-Hotspots-Data-Dashboard/monthly.html">Monthly</a></li>
-            <li><a href="/FLP-Hotspots-Data-Dashboard/hotspot.html">By Hotspot</a></li>
-            <li><a href="/FLP-Hotspots-Data-Dashboard/compare.html">Compare</a></li>
-        </ul>
+        	<!-- LI's Here -->
+			</ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 	  
 <div class="container" role="main">      
+	<!-- 
+	
 	<form id="exclude" name="exclude" onchange="drawTable();">
 		<input type="checkbox" value = "1">Exclude Sites with Adult Visits Only</input>
 	</form>
+	
+	-->
 	
 	<select id="useType" name="useType" onchange="drawTable();">
 			<option value="Social Media">Social Media</option>
