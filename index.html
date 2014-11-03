@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Free Library of Philadelphia Hotspots Data Dashboard</title>
+    <title>Kesypot Quarter 1 Data></title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -19,15 +19,25 @@
 	<!-- Google Charts API -->
  	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
-    google.load('visualization', '1', { packages: ['table'] });
+    google.load('visualization', '1', { packages: ['corechart'] });
 		function drawTable() {
-   		// Construct query
- var query = "SELECT 'Organization' as Scoring, " +
-            "'Total Visits' as Receiving " +
+   		// User Input
+		var exclude = document.getElementById('exclude')[0];
+		var excludeValue = exclude.value;
+		var useTypeValue = document.getElementById('useType').value;
+			console.log(useTypeValue);
+		var ageTypeValue;
+
+ var query = "SELECT 'Organization' as Organization, " +
+            "'% Adult Visits' as '% Adult Visits', " +
+	 		"'" + useTypeValue + "' as '" + useTypeValue + "' " +
             'FROM 1mHlGh_9lb8yAvPFPtAB3c4NobQen3kNMGTRN85k-';   
-			
-			//var query = 'SELECT "Timestamp", COUNT() FROM 1mHlGh_9lb8yAvPFPtAB3c4NobQen3kNMGTRN85k';
-       var queryText = encodeURIComponent(query);
+		
+//		if (exclude.checked == true) {
+			query += " WHERE '% Adult Visits' < '" + 1 + "'";
+//		}	
+        
+        var queryText = encodeURIComponent(query);
         var gvizQuery = new google.visualization.Query(
             'http://www.google.com/fusiontables/gvizdata?tq=' + queryText);
 			console.log(gvizQuery);
@@ -43,19 +53,51 @@
             ftdata.push('<th>' + columnTitle + '</th>');
           }
           ftdata.push('</tr></thead><tbody>');
-
+			var rows = 0;
           for (var i = 0; i < numRows; i++) {
-            ftdata.push('<tr>');
+            rows++;
+			ftdata.push('<tr>');
             for(var j = 0; j < numCols; j++) {
               var rowValue = response.getDataTable().getValue(i, j);
               ftdata.push('<td>' + rowValue + '</td>');
             }
             ftdata.push('</tr>');
           }
+			console.log('Returning ' + rows + ' results');
           ftdata.push('</tbody></table>');
-          document.getElementById('ft-data').innerHTML = ftdata.join('');
+           document.getElementById('ft-data').innerHTML = ftdata.join('');
+
+  			//Build Chart Array
+			var chartData = [];
+			chartData.push(['% Adult Visits', useTypeValue]);
+					for (var i = 0; i < numRows; i++) {
+						for (var j = 0; j < numCols; j++) {
+							var rowValue = response.getDataTable(i,j);
+						}
+						//var orgName = rowValue.tf[i]['c'][0]['v'];
+						var percentAdultVisits = rowValue.tf[i]['c'][1]['v'];
+						var percentUseType = rowValue.tf[i]['c'][2]['v'];
+						chartData.push([percentAdultVisits, percentUseType]);
+					}
+						drawChart(chartData)
         });
-      }
+
+		}
+				function drawChart(chartData) {
+		    var data = google.visualization.arrayToDataTable(chartData);
+		        var options = {
+		          title: 'Company Performance', 
+				  trendlines: {
+            		0: {
+              			type: 'linear',
+              			showR2: true,
+              			visibleInLegend: true
+            			}
+          			}
+		        };
+		        var chart = new google.visualization.ScatterChart(document.getElementById('visualization'));
+		        chart.draw(data, options);
+			}
   google.setOnLoadCallback(drawTable);  
     </script>   
 
@@ -85,9 +127,26 @@
     </div>
 	  
 <div class="container" role="main">      
+	<form id="exclude" name="exclude" onchange="drawTable();">
+		<input type="checkbox" value = "1">Exclude Sites with Adult Visits Only</input>
+	</form>
+	
+	<select id="useType" name="useType" onchange="drawTable();">
+			<option value="Social Media">Social Media</option>
+			<option value="Email">Email</option>
+			<option value="Job Searching">Job Searching</option>
+	</select>
+	
+		<select id="age" name="age" onchange="drawTable();">
+			<option value="% Adult Visits">Adult Visits</option>
+			<option value="% Youth Visits">Youth Visits</option>
+	</select>
+	  
+	  
+		
 	<h3 id="yearlyTotal"></h3>
-	<div id="ft-data"></div>
 	<div id="visualization"></div>
+	<div id="ft-data"></div>
 </div>
 
 
