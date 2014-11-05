@@ -21,69 +21,65 @@
 	<script type="text/javascript">
     google.load('visualization', '1', { packages: ['corechart'] });
 		function drawTable() {
-   		// User Input
-		// var exclude = document.getElementById('exclude')[0];
-		// var excludeValue = exclude.value;
-		var useTypeValue = document.getElementById('useType').value;
-			console.log(useTypeValue);
-		// var ageTypeValue = ["% Adult Visits", "% Youth Visits"]
+	   		
+	   		// User Input			
+			var useTypeValue = document.getElementById('useType').value;
 			var ageTypeValue = document.getElementById('age').value;
 
- var query = "SELECT 'Organization' as Organization, " +
-	 		"'" + ageTypeValue + "' as '" + ageTypeValue + "', " +
-	 		"'" + useTypeValue + "' as '" + useTypeValue + "' " +
-            'FROM 1mHlGh_9lb8yAvPFPtAB3c4NobQen3kNMGTRN85k-';   
-		
+			//Query
+			var query = "SELECT 'Organization' as Organization, " +
+				 		"'" + ageTypeValue + "' as '" + ageTypeValue + "', " +
+				 		"'" + useTypeValue + "' as '" + useTypeValue + "' " +
+			            'FROM 1mHlGh_9lb8yAvPFPtAB3c4NobQen3kNMGTRN85k-';   
+					
 			query += " WHERE '% Adult Visits' < '" + 1 + "'";
-			
-			console.log(query);
-        
-        var queryText = encodeURIComponent(query);
-        var gvizQuery = new google.visualization.Query(
-            'https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
-			console.log(gvizQuery);
+			        
+	        var queryText = encodeURIComponent(query);
+	        var gvizQuery = new google.visualization.Query(
+	            'https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
+				console.log(gvizQuery);
 
-          // Send query and draw table with data in response
-        gvizQuery.send(function(response) {
-          var numRows = response.getDataTable().getNumberOfRows();
-          var numCols = response.getDataTable().getNumberOfColumns();
+			// Send query and draw table with data in response
+	        gvizQuery.send(function(response) {
+				var numRows = response.getDataTable().getNumberOfRows();
+				var numCols = response.getDataTable().getNumberOfColumns();
 
-          var ftdata = ['<table class="table table-striped"><thead><tr>'];
-          for (var i = 0; i < numCols; i++) {
-            var columnTitle = response.getDataTable().getColumnLabel(i);
-            ftdata.push('<th>' + columnTitle + '</th>');
-          }
-          ftdata.push('</tr></thead><tbody>');
-			var rows = 0;
-          for (var i = 0; i < numRows; i++) {
-            rows++;
-			ftdata.push('<tr>');
-            for(var j = 0; j < numCols; j++) {
-              var rowValue = response.getDataTable().getValue(i, j);
-              ftdata.push('<td>' + rowValue + '</td>');
-            }
-            ftdata.push('</tr>');
-          }
-			console.log('Returning ' + rows + ' results');
-          ftdata.push('</tbody></table>');
-           document.getElementById('ft-data').innerHTML = ftdata.join('');
+				//Build a table in HTML
+				var ftdata = ['<table class="table table-striped"><thead><tr>'];
+				for (var i = 0; i < numCols; i++) {
+		            var columnTitle = response.getDataTable().getColumnLabel(i);
+		            ftdata.push('<th>' + columnTitle + '</th>');
+				}
+				
+				ftdata.push('</tr></thead><tbody>');
+				
+				for (var i = 0; i < numRows; i++) {
+					ftdata.push('<tr>');
+		            for (var j = 0; j < numCols; j++) {
+						var rowValue = response.getDataTable().getValue(i, j);
+						ftdata.push('<td>' + rowValue + '</td>');
+		            }
+		            ftdata.push('</tr>');
+				}
+	          
+				ftdata.push('</tbody></table>');
+				document.getElementById('ft-data').innerHTML = ftdata.join('');
 
-  			//Build Chart Array
-			var chartData = [];
-			chartData.push(['% Adult Visits', useTypeValue]);
-					for (var i = 0; i < numRows; i++) {
-						for (var j = 0; j < numCols; j++) {
-							var rowValue = response.getDataTable(i,j);
-						}
-						console.log(rowValue);
-						//var orgName = rowValue.tf[i]['c'][0]['v'];
-						var percentAgeType = rowValue.Nf[i]['c'][1]['v'];
-						var percentUseType = rowValue.Nf[i]['c'][2]['v'];
-						chartData.push([percentAgeType, percentUseType]);
+	  			//Build Chart Array
+				var chartData = [];
+				chartData.push(['% Adult Visits', useTypeValue]);
+				
+				for (var i = 0; i < numRows; i++) {
+					for (var j = 0; j < numCols; j++) {
+						var rowValue = response.getDataTable(i,j);
 					}
-						drawChart(chartData, ageTypeValue, useTypeValue)
-        });
-
+					//Build the array in the loop using specific values from response
+					var percentAgeType = rowValue.Nf[i]['c'][1]['v'];
+					var percentUseType = rowValue.Nf[i]['c'][2]['v'];
+					chartData.push([percentAgeType, percentUseType]);
+				}
+					drawChart(chartData, ageTypeValue, useTypeValue)
+		    });
 		}
 		function drawChart(chartData, ageTypeValue, useTypeValue) {
 		    var data = google.visualization.arrayToDataTable(chartData);
@@ -92,18 +88,18 @@
 					hAxis: {title: useTypeValue},
 					vAxis: {title: ageTypeValue},
 					trendlines: {
-            		0: {
-              			type: 'linear',
-              			showR2: true,
-              			visibleInLegend: true
-            			}
-          			}
+	        		0: {
+	          			type: 'linear',
+	          			showR2: true,
+	          			visibleInLegend: true
+	        			}
+	      			}
 		        };
 		        var chart = new google.visualization.ScatterChart(document.getElementById('visualization'));
 		        chart.draw(data, options);
-			}
-  google.setOnLoadCallback(drawTable);  
-    </script>   
+		}
+		 google.setOnLoadCallback(drawTable);  
+	 </script>   
 
   </head>
 <body role="document">
