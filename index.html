@@ -37,7 +37,6 @@
 	        var queryText = encodeURIComponent(query);
 	        var gvizQuery = new google.visualization.Query(
 	            'https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
-				console.log(gvizQuery);
 
 			// Send query and draw table with data in response
 	        gvizQuery.send(function(response) {
