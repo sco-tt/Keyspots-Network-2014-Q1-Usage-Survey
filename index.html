@@ -75,10 +75,11 @@
 						for (var j = 0; j < numCols; j++) {
 							var rowValue = response.getDataTable(i,j);
 						}
+						console.log(rowValue);
 						//var orgName = rowValue.tf[i]['c'][0]['v'];
-						var percentAdultVisits = rowValue.tf[i]['c'][1]['v'];
-						var percentUseType = rowValue.tf[i]['c'][2]['v'];
-						chartData.push([percentAdultVisits, percentUseType]);
+						var percentAgeType = rowValue.Nf[i]['c'][1]['v'];
+						var percentUseType = rowValue.Nf[i]['c'][2]['v'];
+						chartData.push([percentAgeType, percentUseType]);
 					}
 						drawChart(chartData, ageTypeValue, useTypeValue)
         });
@@ -137,9 +138,11 @@
 	-->
 	
 	<select id="useType" name="useType" onchange="drawTable();">
+			<option value="Job Searching">Job Searching</option>
 			<option value="Social Media">Social Media</option>
 			<option value="Email">Email</option>
-			<option value="Job Searching">Job Searching</option>
+			<option value="Education">Education</option>
+			<option value="General Browsing">General Browsing</option>
 	</select>
 	
 		<select id="age" name="age" onchange="drawTable();">
