@@ -44,6 +44,9 @@
 				var numCols = response.getDataTable().getNumberOfColumns();
 
 				//Build a table in HTML
+				
+				/** Not going to display this data 
+				
 				var ftdata = ['<table class="table table-striped"><thead><tr>'];
 				for (var i = 0; i < numCols; i++) {
 		            var columnTitle = response.getDataTable().getColumnLabel(i);
@@ -63,6 +66,8 @@
 	          
 				ftdata.push('</tbody></table>');
 				document.getElementById('ft-data').innerHTML = ftdata.join('');
+				
+				**/
 
 	  			//Build Chart Array
 				var chartData = [];
@@ -149,7 +154,8 @@
 		
 	<h3 id="yearlyTotal"></h3>
 	<div id="visualization"></div>
-	<div id="ft-data"></div>
+	<!-- Not going to display this data -->
+	<!-- <div id="ft-data"></div> -->
 </div>
 
 
