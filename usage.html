@@ -17,8 +17,27 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	<!-- Google Charts API -->
- 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Usage Type', 'Percentage'],
+          ['Job Searching',  41.2],
+          ['Education',  26.6],
+          ['Social Media',  23.5],
+          ['Email',  28.3]
+        ]);
+
+        var options = {
+          vAxis: {title: 'Use Type',  titleTextStyle: {color: 'black'}}
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>	
 
   </head>
 <body role="document">
@@ -47,19 +66,7 @@
 	  
 <div class="container" role="main">     		
 <h1>Usage</h1>
-
-<iframe width="800" height="500" scrolling="no" frameborder="no" src="https://www.google.com/fusiontables/embedviz?containerId=googft-gviz-canvas&amp;q=select+col25%2C+AVERAGE(col16)+from+1-lrK5e6F1JgqeOnjSnaC9YnWBWjvW8vd07p7qQga+group+by+col25+order+by+AVERAGE(col16)+asc+limit+100&amp;viz=GVIZ&amp;t=COLUMN&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;gco_vAxes=%5B%7B%22title%22%3Anull%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22logScale%22%3Afalse%7D%2C%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22logScale%22%3Afalse%7D%5D&amp;gco_useFirstColumnAsDomain=true&amp;gco_isStacked=false&amp;gco_booleanRole=certainty&amp;gco_hAxis=%7B%22useFormatFromData%22%3Atrue%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22viewWindow%22%3Anull%2C+%22viewWindowMode%22%3Anull%2C+%22title%22%3A%22FLP+%3D+4+sites+reporting%2C+PPR+%3D+19+sites+reporting%2C+Non-Profit+%3D+24+sites+reporting%22%7D&amp;gco_legend=right&amp;gco_title=KEYSPOT+Average+%25+of+Visitors+Using+Computers+for+Education%2C+July-Sept+2014&amp;width=800&amp;height=500"></iframe>
-
-<div>
-
-<iframe width="800" height="500" scrolling="no" frameborder="no" src="https://www.google.com/fusiontables/embedviz?containerId=googft-gviz-canvas&amp;q=select+col25%2C+AVERAGE(col17)+from+1-lrK5e6F1JgqeOnjSnaC9YnWBWjvW8vd07p7qQga+group+by+col25+order+by+AVERAGE(col17)+asc+limit+100&amp;viz=GVIZ&amp;t=COLUMN&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;gco_vAxes=%5B%7B%22title%22%3Anull%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22logScale%22%3Afalse%7D%2C%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22logScale%22%3Afalse%7D%5D&amp;gco_useFirstColumnAsDomain=true&amp;gco_isStacked=false&amp;gco_booleanRole=certainty&amp;gco_hAxis=%7B%22useFormatFromData%22%3Atrue%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22viewWindow%22%3Anull%2C+%22viewWindowMode%22%3Anull%2C+%22title%22%3A%22FLP+%3D+4+sites+reporting%2C+Non-profit+%3D+24+sites+reporting%2C+PPR+%3D+19+sites+reporting%22%7D&amp;gco_legend=right&amp;gco_title=KEYSPOT+Average+%25+of+Visitors+Using+Computers+for+Social+Media%2C+July-Sept+2014&amp;width=800&amp;height=500"></iframe>
-
-
-<iframe width="800" height="500" scrolling="no" frameborder="no" src="https://www.google.com/fusiontables/embedviz?containerId=googft-gviz-canvas&amp;q=select+col25%2C+AVERAGE(col15)+from+1-lrK5e6F1JgqeOnjSnaC9YnWBWjvW8vd07p7qQga+where+col11+in+(&#39;Casa+Monarca&#39;%2C+&#39;ODAAT&#39;%2C+&#39;Vica+Technologies&#39;%2C+&#39;Urban+Affairs+Coalition&#39;%2C+&#39;Philadelphia+OIC%2C+Inc.&#39;%2C+&#39;The+Enterprise+Center&#39;%2C+&#39;Philadelphia+Parks+%26+Recreation&#39;%2C+&#39;Philadelphia+FIGHT&#39;%2C+&#39;Dixon+House&#39;%2C+&#39;Dignity+Housing&#39;%2C+&#39;St.+John%5C&#39;s+Hospice&#39;%2C+&#39;PEC+-+Gloria%5C&#39;s+Place&#39;%2C+&#39;Turning+the+Tide&#39;%2C+&#39;Philadelphia+Unemployment+Project&#39;%2C+&#39;PEC+-+Families+First&#39;%2C+&#39;Philadelphia+OIC+-+MONK&#39;%2C+&#39;ACHIEVEability&#39;%2C+&#39;SELF+Inc+(Outley+House)&#39;%2C+&#39;Mantua+Haverford+Community+Center&#39;%2C+&#39;Free+Library+of+Philadelphia&#39;%2C+&#39;Congreso&#39;%2C+&#39;Community+Women%5C&#39;s+Education+Project&#39;%2C+&#39;Dornsife+Center&#39;)+group+by+col25+order+by+AVERAGE(col15)+asc+limit+10&amp;viz=GVIZ&amp;t=COLUMN&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;gco_vAxes=%5B%7B%22title%22%3Anull%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%7D%2C%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%7D%5D&amp;gco_useFirstColumnAsDomain=true&amp;gco_isStacked=false&amp;gco_booleanRole=certainty&amp;gco_hAxis=%7B%22useFormatFromData%22%3Atrue%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22viewWindow%22%3Anull%2C+%22viewWindowMode%22%3Anull%2C+%22title%22%3A%22PPR+%3D+19+sites+reporting%2C+FLP+%3D+4+sites+reporting%2C+Non-Profit+%3D+24+sites+reporting%22%7D&amp;gco_legend=right&amp;gco_title=KEYSPOT+Average+%25+of+Visitors+Using+Computers+for+Job+Searching%2C+July-Sept+2014&amp;width=800&amp;height=500"></iframe>
-
-
-
-
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
 </div>
 
 
