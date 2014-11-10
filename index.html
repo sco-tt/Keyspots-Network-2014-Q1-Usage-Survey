@@ -18,96 +18,10 @@
     <![endif]-->
 	<!-- Google Charts API -->
  	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	<script type="text/javascript">
-    google.load('visualization', '1', { packages: ['corechart'] });
-		function drawTable() {
-	   		
-	   		// User Input			
-			var useTypeValue = document.getElementById('useType').value;
-			var ageTypeValue = document.getElementById('age').value;
-
-			//Query
-			var query = "SELECT 'Organization' as Organization, " +
-				 		"'" + ageTypeValue + "' as '" + ageTypeValue + "', " +
-				 		"'" + useTypeValue + "' as '" + useTypeValue + "' " +
-			            'FROM 1mHlGh_9lb8yAvPFPtAB3c4NobQen3kNMGTRN85k-';   
-					
-			query += " WHERE '% Adult Visits' < '" + 1 + "'";
-			        
-	        var queryText = encodeURIComponent(query);
-	        var gvizQuery = new google.visualization.Query(
-	            'https://www.google.com/fusiontables/gvizdata?tq=' + queryText);
-
-			// Send query and draw table with data in response
-	        gvizQuery.send(function(response) {
-				var numRows = response.getDataTable().getNumberOfRows();
-				var numCols = response.getDataTable().getNumberOfColumns();
-
-				//Build a table in HTML
-				
-				/** Not going to display this data 
-				
-				var ftdata = ['<table class="table table-striped"><thead><tr>'];
-				for (var i = 0; i < numCols; i++) {
-		            var columnTitle = response.getDataTable().getColumnLabel(i);
-		            ftdata.push('<th>' + columnTitle + '</th>');
-				}
-				
-				ftdata.push('</tr></thead><tbody>');
-				
-				for (var i = 0; i < numRows; i++) {
-					ftdata.push('<tr>');
-		            for (var j = 0; j < numCols; j++) {
-						var rowValue = response.getDataTable().getValue(i, j);
-						ftdata.push('<td>' + rowValue + '</td>');
-		            }
-		            ftdata.push('</tr>');
-				}
-	          
-				ftdata.push('</tbody></table>');
-				document.getElementById('ft-data').innerHTML = ftdata.join('');
-				
-				**/
-
-	  			//Build Chart Array
-				var chartData = [];
-				chartData.push(['% Adult Visits', useTypeValue]);
-				
-				for (var i = 0; i < numRows; i++) {
-					for (var j = 0; j < numCols; j++) {
-						var rowValue = response.getDataTable(i,j);
-					}
-					//Build the array in the loop using specific values from response
-					var percentAgeType = rowValue.Nf[i]['c'][1]['v'];
-					var percentUseType = rowValue.Nf[i]['c'][2]['v'];
-					chartData.push([percentAgeType, percentUseType]);
-				}
-					drawChart(chartData, ageTypeValue, useTypeValue)
-		    });
-		}
-		function drawChart(chartData, ageTypeValue, useTypeValue) {
-		    var data = google.visualization.arrayToDataTable(chartData);
-		        var options = {
-		          title: useTypeValue + ' vs ' + ageTypeValue,
-					hAxis: {title: useTypeValue},
-					vAxis: {title: ageTypeValue},
-					trendlines: {
-	        		0: {
-	          			type: 'linear',
-	          			showR2: true,
-	          			visibleInLegend: true
-	        			}
-	      			}
-		        };
-		        var chart = new google.visualization.ScatterChart(document.getElementById('visualization'));
-		        chart.draw(data, options);
-		}
-		 google.setOnLoadCallback(drawTable);  
-	 </script>   
+	
 
   </head>
 <body role="document">
-
     <!-- Fixed navbar -->
     <div class="navbar navbar-inverse" role="navigation">
       <div class="container">
@@ -122,40 +36,81 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-        	<!-- LI's Here -->
+        	<li><a href="/regions.html">Regions Data</a></li>
+        	<li><a href="/usage.html">Usage Data</a></li>
+        	<li><a href="/usage-and-age.html">Usage and Age Comparison</a></li>
 			</ul>
         </div><!--/.nav-collapse -->
       </div>
     </div>
 	  
-<div class="container" role="main">      
-	<!-- 
-	
-	<form id="exclude" name="exclude" onchange="drawTable();">
-		<input type="checkbox" value = "1">Exclude Sites with Adult Visits Only</input>
-	</form>
-	
-	-->
-	
-	<select id="useType" name="useType" onchange="drawTable();">
-			<option value="Job Searching">Job Searching</option>
-			<option value="Social Media">Social Media</option>
-			<option value="Email">Email</option>
-			<option value="Education">Education</option>
-			<option value="General Browsing">General Browsing</option>
-	</select>
-	
-		<select id="age" name="age" onchange="drawTable();">
-			<option value="% Adult Visits">Adult Visits</option>
-			<option value="% Youth Visits">Youth Visits</option>
-	</select>
-	  
-	  
-		
-	<h3 id="yearlyTotal"></h3>
-	<div id="visualization"></div>
-	<!-- Not going to display this data -->
-	<!-- <div id="ft-data"></div> -->
+<div class="container" role="main">     		
+<h1>Total Visits</h1>
+<div class="row">
+  <div class="col-md-6">
+  <table class="table table-striped">
+	<tr>
+		<td><h5>Total Visitors</h5></td>
+		<td>39,457</td>
+	</tr>
+	<tr>
+		<td><h5>Sites Reporting Information</h5></td>
+		<td>49</td>
+	</tr>
+	</table>
+
+</div>
+  <div class="col-md-6"><iframe width="500" height="300" scrolling="no" frameborder="no" src="https://www.google.com/fusiontables/embedviz?containerId=googft-gviz-canvas&amp;q=select+col25%2C+SUM(col0)+from+1vYnYwEaY6ZVsBID_a_d_E_nHRlVcfpAgQ3QNZYs3+group+by+col25+order+by+SUM(col0)+asc+limit+10&amp;viz=GVIZ&amp;t=PIE&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;gco_useFirstColumnAsDomain=true&amp;gco_is3D=false&amp;gco_pieHole=0&amp;gco_booleanRole=certainty&amp;gco_colors=%5B%22%233366CC%22%2C%22%23DC3912%22%2C%22%23FF9900%22%2C%22%23109618%22%2C%22%23990099%22%2C%22%230099C6%22%2C%22%23DD4477%22%2C%22%2366AA00%22%2C%22%23B82E2E%22%2C%22%23316395%22%2C%22%23994499%22%2C%22%2322AA99%22%2C%22%23AAAA11%22%2C%22%236633CC%22%2C%22%23E67300%22%2C%22%238B0707%22%2C%22%23651067%22%2C%22%23329262%22%2C%22%235574A6%22%2C%22%233B3EAC%22%2C%22%23B77322%22%2C%22%2316D620%22%2C%22%23B91383%22%2C%22%23F4359E%22%2C%22%239C5935%22%2C%22%23A9C413%22%2C%22%232A778D%22%2C%22%23668D1C%22%2C%22%23BEA413%22%2C%22%230C5922%22%2C%22%23743411%22%5D&amp;gco_hAxis=%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%7D&amp;gco_vAxes=%5B%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%7D%2C%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%7D%5D&amp;gco_title=KEYSPOT+Total+%25+of+Visits+by+Site+Type%2C+July-Sept+2014&amp;width=500&amp;height=300"></iframe>
+  </div>
+</div>
+
+<h1>Adult and Youth Visits Visits</h1>
+<div class="row">
+  <div class="col-md-6">
+  <table class="table table-striped">
+	<tr>
+		<td><h5>Total Adult Visitors</h5></td>
+		<td>14,105</td>
+	</tr>
+	<tr>
+		<td><h5>Total Youth Visitors Reporting Information</h5></td>
+		<td>25,352</td>
+	</tr>
+	</table>
+
+</div>
+  <div class="col-md-6">
+  	<iframe width="500" height="300" scrolling="no" frameborder="no" src="https://www.google.com/fusiontables/embedviz?containerId=googft-gviz-canvas&amp;q=select+col25%2C+AVERAGE(col2)%2C+AVERAGE(col3)+from+1-lrK5e6F1JgqeOnjSnaC9YnWBWjvW8vd07p7qQga+group+by+col25+order+by+AVERAGE(col2)+asc+limit+10&amp;viz=GVIZ&amp;t=COLUMN&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;gco_vAxes=%5B%7B%22title%22%3Anull%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%7D%2C%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%7D%5D&amp;gco_useFirstColumnAsDomain=true&amp;gco_isStacked=false&amp;gco_booleanRole=certainty&amp;gco_hAxis=%7B%22useFormatFromData%22%3Atrue%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%2C+%22viewWindow%22%3Anull%2C+%22viewWindowMode%22%3Anull%2C+%22title%22%3A%22FLP+%3D+4+sites+reporting%2C+PPR+%3D+19+sites+reporting%2C+Non-profit+%3D+24+sites+reporting%22%7D&amp;gco_legend=right&amp;gco_title=KEYSPOT+Average+Adult+and+Youth+Visits+by+Type+of+Site%2C+July-Sept+2014&amp;width=500&amp;height=300"></iframe>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<h1>Open Access Hours</h1>
+<div class="row">
+  <div class="col-md-6">
+  <table class="table table-striped">
+	<tr>
+		<td><h5>Total Open Access Hours</h5></td>
+		<td>11,193</td>
+	</tr>
+	</table>
+
+</div>
+  <div class="col-md-6">.<iframe width="500" height="300" scrolling="no" frameborder="no" src="https://www.google.com/fusiontables/embedviz?containerId=googft-gviz-canvas&amp;q=select+col25%2C+SUM(col0)+from+1vYnYwEaY6ZVsBID_a_d_E_nHRlVcfpAgQ3QNZYs3+group+by+col25+order+by+SUM(col0)+asc+limit+10&amp;viz=GVIZ&amp;t=PIE&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;gco_useFirstColumnAsDomain=true&amp;gco_is3D=false&amp;gco_pieHole=0&amp;gco_booleanRole=certainty&amp;gco_colors=%5B%22%233366CC%22%2C%22%23DC3912%22%2C%22%23FF9900%22%2C%22%23109618%22%2C%22%23990099%22%2C%22%230099C6%22%2C%22%23DD4477%22%2C%22%2366AA00%22%2C%22%23B82E2E%22%2C%22%23316395%22%2C%22%23994499%22%2C%22%2322AA99%22%2C%22%23AAAA11%22%2C%22%236633CC%22%2C%22%23E67300%22%2C%22%238B0707%22%2C%22%23651067%22%2C%22%23329262%22%2C%22%235574A6%22%2C%22%233B3EAC%22%2C%22%23B77322%22%2C%22%2316D620%22%2C%22%23B91383%22%2C%22%23F4359E%22%2C%22%239C5935%22%2C%22%23A9C413%22%2C%22%232A778D%22%2C%22%23668D1C%22%2C%22%23BEA413%22%2C%22%230C5922%22%2C%22%23743411%22%5D&amp;gco_hAxis=%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%7D&amp;gco_vAxes=%5B%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%7D%2C%7B%22useFormatFromData%22%3Atrue%2C+%22viewWindow%22%3A%7B%22max%22%3Anull%2C+%22min%22%3Anull%7D%2C+%22minValue%22%3Anull%2C+%22maxValue%22%3Anull%7D%5D&amp;gco_title=KEYSPOT+Total+%25+of+Visits+by+Site+Type%2C+July-Sept+2014&amp;width=500&amp;height=300"></iframe>
+  </div>
+</div>
+
+
+
+
+
 </div>
 
 
